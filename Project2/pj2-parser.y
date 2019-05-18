@@ -3,9 +3,9 @@
 #include "SymbolTables.hpp"
 #include "lex.yy.cpp"
 
-#define Trace(t) if (Output_P) cout << "TRACE -> " << t << endl;
+#define Trace(t) if (Output_Parser) cout << "TRACE -> " << t << endl;
 
-int Output_P = 1;
+int Output_Parser = 1;
 void yyerror(string s);
 
 SymbolTableList stl;
@@ -61,7 +61,7 @@ vector<string> idStack;
 
                     stl.push();
                   }
-                    opt_var_dec opt_proc_dec BEGINT opt_statement END ID
+                    opt_var_dec opt_proc_dec BEGINT opt_statement END ID '.'
                   {
                     Trace("module end");
                     idInfo *info = stl.lookup(*$9);

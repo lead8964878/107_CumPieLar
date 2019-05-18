@@ -4,13 +4,14 @@
 using namespace std;
 
 #define LIST     strcat(buf,yytext)
-#define token(t) {LIST; printf("<%s>\n",#t);}
-#define tokenChar(t) { LIST; printf("<'%c'>\n", t); }
-#define tokenInteger(t,i) {LIST; printf("<%s:%d>\n",#t,i);}
-#define tokenString(t,s) {LIST; printf("<%s:%s>\n",#t,s);}
+#define token(t) {LIST; if(Output_Scanner) printf("<%s>\n",#t);}
+#define tokenChar(t) { LIST; if(Output_Scanner) printf("<'%c'>\n", t); }
+#define tokenInteger(t,i) {LIST; if(Output_Scanner) printf("<%s:%d>\n",#t,i);}
+#define tokenString(t,s) {LIST; if(Output_Scanner) printf("<%s:%s>\n",#t,s);}
 
 #define MAX_LINE_LENG 256
 
+int Output_Scanner=0;
 int linenum = 1;
 char buf[MAX_LINE_LENG];
 
@@ -144,7 +145,7 @@ STRING          (\"(\"\"|[^"\n])*\")
 
 \n {
 	LIST;
-	printf("%d: %s", linenum++, buf);
+	if(Output_Scanner) printf("%d: %s", linenum++, buf);
 	buf[0] = '\0';
 }
 
@@ -152,8 +153,8 @@ STRING          (\"(\"\"|[^"\n])*\")
 
 . {
 	LIST;
-	printf("%d:%s\n", linenum + 1, buf);
-	printf("invalid character:'%s'\n",yytext);
+	if(Output_Scanner) printf("%d:%s\n", linenum + 1, buf);
+	if(Output_Scanner) printf("invalid character:'%s'\n",yytext);
 	exit(-1);
 }
 %%
