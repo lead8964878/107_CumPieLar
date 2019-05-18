@@ -6,7 +6,7 @@
 module fib
 
     // variables
-    var n, Fn, FNminus1, temp: integer
+    var n, Fn, FNminus1, temp: integer;
 
 begin
     // variable initialization

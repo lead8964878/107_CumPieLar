@@ -10,12 +10,12 @@ module Sigma
   var sum, index: integer;
 
 begin
-  sum = 0;
-  index = 0;
+  sum := 0;
+  index := 0;
     
   while (index <= n) do
-    sum = sum + index;
-    index = index + 1;
+    sum := sum + index;
+    index := index + 1;
   end;
   print "The sum is ";
   println sum;

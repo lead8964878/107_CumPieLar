@@ -302,7 +302,7 @@ vector<string> idStack;
                   ;
 
 /* loop */
-                  loop: WHILE '(' expression ')' DO opt_statement END
+                  loop: WHILE '(' expression ')' DO opt_statement END ';'
                   {
                     Trace("statement : while loop");
 

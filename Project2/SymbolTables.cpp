@@ -23,7 +23,7 @@ int SymbolTable::insert(string id, int type, int flag, idValue value, bool value
 
 void SymbolTable::dump()
 {
-  cout << "<id>\t<flag>\t<type>\t<value>" << endl;
+  cout << "<id>\t\t<flag>\t\t<type>\t\t<value>" << endl;
   string s;
   for (int i = 0; i < symbolList.size(); i++)
   {
