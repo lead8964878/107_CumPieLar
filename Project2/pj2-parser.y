@@ -26,9 +26,9 @@ vector<string> idStack;
 
 /* tokens */
 %token LE GE EQ NEQ AND OR
-%token ARRAY BOOL BEGIN BREAK CHAR CASE CONST CONTINUE DO ELSE END EXIT FOR FN
+%token ARRAY ASSIGN BOOL BEGIN BREAK CHAR CASE CONST CONTINUE DO ELSE END EXIT FALSE FOR FN
 %token IF IN INT LOOP MODULE OF PRINT PRINTLN PROCEDURE REPEAT RETURN READ REAL
-%token STR RECORD THEN TYPE USE UTIL VAR WHILE
+%token STR RECORD THEN TRUE TYPE USE UTIL VAR WHILE
 %token <s_Val> STR_CONST
 %token <i_Val> INT_CONST
 %token <r_Val> REAL_CONST
@@ -63,7 +63,7 @@ vector<string> idStack;
                     opt_var_dec opt_proc_dec BEGIN opt_statement END ID '.'
                   {
                     Trace("module end");
-                    idInfo *info = stl.lookup(*$6);
+                    idInfo *info = stl.lookup(*$8);
                     if (info == NULL) yyerror("module id imcompatible");
 
                     stl.dump();
@@ -90,8 +90,8 @@ vector<string> idStack;
 
                     if (!isConst(*$3)) yyerror("expression not constant value"); /* constant check */
 
-                    $4->flag = const_Flag;
-                    $4->valueInitialed = true;
+                    $3->flag = const_Flag;
+                    $3->valueInitialed = true;
                     if (stl.insert(*$1, *$3) == -1) yyerror("constant redefinition"); /* symbol check */
                   }
                   ;
@@ -183,7 +183,7 @@ vector<string> idStack;
                     '(' opt_args ')' opt_ret_type opt_var_dec BEGIN opt_statement END ID
                   {
                     Trace("procedure end");
-                    idInfo *info = stl.lookup(*$9);
+                    idInfo *info = stl.lookup(*$11);
                     if (info == NULL) yyerror("procedure name imcompatible");
 
                     stl.dump();
@@ -357,9 +357,22 @@ vector<string> idStack;
                   ;
 
 /* constant value */
-                  const_value: INT_CONST | REAL_CONST | BOOL_CONST | STR_CONST
+                  const_value: 
+                    INT_CONST
                   {
-                    $$ = setConst($1);
+                    $$ = setConst_i($1);
+                  }
+                  | REAL_CONST
+                  {
+                    $$ = setConst_r($1);
+                  }
+                  | BOOL_CONST
+                  {
+                    $$ = setConst_b($1);
+                  }
+                  | STR_CONST
+                  {
+                    $$ = setConst_s($1);
                   }
                   ;
 

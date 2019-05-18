@@ -75,7 +75,7 @@ class SymbolTableList {
 };
 
 bool isConst(idInfo info);
-idInfo *setConst(string *val);
-idInfo *setConst(int val);
-idInfo *setConst(double val);
-idInfo *setConst(bool val);
+idInfo *setConst_s(string *val);
+idInfo *setConst_i(int val);
+idInfo *setConst_r(double val);
+idInfo *setConst_b(bool val);

@@ -177,7 +177,7 @@ bool isConst(idInfo info)
   return false;
 }
 
-idInfo *setConst(int val)
+idInfo *setConst_i(int val)
 {
   idInfo* info = new idInfo();
   info->type = int_Type;
@@ -186,7 +186,7 @@ idInfo *setConst(int val)
   return info;
 }
 
-idInfo *setConst(double val)
+idInfo *setConst_r(double val)
 {
   idInfo* info = new idInfo();
   info->type = real_Type;
@@ -195,7 +195,7 @@ idInfo *setConst(double val)
   return info;
 }
 
-idInfo *setConst(bool val)
+idInfo *setConst_b(bool val)
 {
   idInfo* info = new idInfo();
   info->type = bool_Type;
@@ -204,7 +204,7 @@ idInfo *setConst(bool val)
   return info;
 }
 
-idInfo *setConst(string *val)
+idInfo *setConst_s(string *val)
 {
   idInfo* info = new idInfo();
   info->type = string_Type;
