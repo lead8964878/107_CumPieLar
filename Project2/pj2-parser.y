@@ -126,7 +126,7 @@ vector<string> idStack;
                     {
                       Trace("array declaration");
 
-                      if (!isConst(*$5) || !isConst(*7)) yyerror("array size not constant");
+                      if (!isConst(*$5) || !isConst(*$7)) yyerror("array size not constant");
                       if ($5->type != int_Type || $7->type != int_Type) yyerror("array size not integer");
                       if ($5->value.i_Val < 0 || $7->value.i_Val < 0) yyerror("array index < 0");
                       if ($7->value.i_Val - $5->value.i_Val < 0) yyerror("array size < 0");
@@ -162,7 +162,7 @@ vector<string> idStack;
                   }
                   | STR
                   {
-                    $$ = str_Type;
+                    $$ = string_Type;
                   }
                   ;
 
@@ -258,7 +258,7 @@ vector<string> idStack;
                     if (info->flag != variable_Flag) yyerror("not a variable"); /* variable check */
                     if (info->type != array_Type) yyerror("variable not an array"); /* type check */
                     if ($3->type != int_Type) yyerror("index not integer"); /* index type check */
-                    if ($3->value.i_Val > info->value.arrayEnd_Index || $3->value.i_Val < value.arrayStart_Index) yyerror("index out of range");
+                    if ($3->value.i_Val > info->value.arrayEnd_Index || $3->value.i_Val < info->value.arrayStart_Index) yyerror("index out of range");
                      /* index range check */
                     if (info->value.array_Val[0].type != $6->type) yyerror("type not match"); /* type check */
                   }
@@ -293,13 +293,13 @@ vector<string> idStack;
                   {
                     Trace("statement : if else");
 
-                    if ($3->type != boolType) yyerror("condition type error");
+                    if ($3->type != bool_Type) yyerror("condition type error");
                   }
                   | IF '(' expression ')' THEN opt_statement END
                   {
                     Trace("statement : if");
 
-                    if ($3->type != boolType) yyerror("condition type error");
+                    if ($3->type != bool_Type) yyerror("condition type error");
                   }
                   ;
 
@@ -308,7 +308,7 @@ vector<string> idStack;
                   {
                     Trace("statement : while loop");
 
-                    if ($3->type != boolType) yyerror("condition type error");
+                    if ($3->type != bool_Type) yyerror("condition type error");
                   }
                   ;
 
@@ -392,14 +392,14 @@ vector<string> idStack;
                     if (info->type != array_Type) yyerror("not array type");
                     if ($3->type != int_Type) yyerror("invalid index");
                     if ($3->value.i_Val > info->value.arrayEnd_Index || $3->value.i_Val < info->value.arrayStart_Index) yyerror("index out of range");
-                    $$ = new idInfo(info->value.array_Val[$3->value.i_val]);
+                    $$ = new idInfo(info->value.array_Val[$3->value.i_Val]);
                   }
                   | proc_invocation
                   | '-' expression %prec UMINUS
                   {
                     Trace("-expression");
 
-                    if ($2->type != intType && $2->type != realType) yyerror("operator error"); /* operator check */
+                    if ($2->type != int_Type && $2->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -411,7 +411,7 @@ vector<string> idStack;
                     Trace("expression * expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -423,7 +423,7 @@ vector<string> idStack;
                     Trace("expression / expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -435,7 +435,7 @@ vector<string> idStack;
                     Trace("expression + expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType && $1->type != strType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type && $1->type != string_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -447,7 +447,7 @@ vector<string> idStack;
                     Trace("expression - expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -459,7 +459,7 @@ vector<string> idStack;
                     Trace("expression < expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -471,7 +471,7 @@ vector<string> idStack;
                     Trace("expression <= expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -483,7 +483,7 @@ vector<string> idStack;
                     Trace("expression EQUAL expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -495,7 +495,7 @@ vector<string> idStack;
                     Trace("expression >= expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -507,7 +507,7 @@ vector<string> idStack;
                     Trace("expression > expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -519,7 +519,7 @@ vector<string> idStack;
                     Trace("expression <> expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != intType && $1->type != realType) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -531,7 +531,7 @@ vector<string> idStack;
                     Trace("expression && expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != boolType) yyerror("operator error"); /* operator check */
+                    if ($1->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -543,7 +543,7 @@ vector<string> idStack;
                     Trace("expression || expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != boolType) yyerror("operator error"); /* operator check */
+                    if ($1->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;
@@ -554,7 +554,7 @@ vector<string> idStack;
                   {
                     Trace("~expression");
 
-                    if ($2->type != boolType) yyerror("operator error"); /* operator check */
+                    if ($2->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->flag = variable_Flag;

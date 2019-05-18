@@ -14,20 +14,6 @@ using namespace std;
 int linenum = 1;
 char buf[MAX_LINE_LENG];
 
-class SymbolTable{
-private:
-	vector<string> symbolList;
-	map<string,int> symbolMap;
-	int index;
-public:
-	SymbolTable();
-	int lookup(string s);
-	int insert(string s);
-	void dump();
-};
-
-SymbolTable *st;
-
 %}
 
 DELIMITERS      ([,:.()\[\]{};])
@@ -83,16 +69,16 @@ STRING          (\"(\"\"|[^"\n])*\")
 "while"         { token(WHILE); return WHILE;}
 
 "false"         { token(FALSE);
-					yylval.bval = false;
+					yylval.b_Val = false;
 					return BOOL_CONST;
 				}
 "true"          { token(TRUE);
-					yylval.bval = true;
+					yylval.b_Val = true;
 					return BOOL_CONST;
 				}
 
 "<="            { token('<='); return LE;}
-">="            { token('>='); return GE}
+">="            { token('>='); return GE;}
 "<>"            { token('<>'); return NEQ;}
 "&&"            { token('&&'); return AND;}
 "||"            { token('||'); return OR;}
