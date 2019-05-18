@@ -26,7 +26,7 @@ vector<string> idStack;
 
 /* tokens */
 %token LE GE EQ NEQ AND OR
-%token ARRAY ASSIGN BOOL BEGIN BREAK CHAR CASE CONST CONTINUE DO ELSE END EXIT FALSE FOR FN
+%token ARRAY ASSIGN BOOL BEGINT BREAK CHAR CASE CONST CONTINUE DO ELSE END EXIT FALSE FOR FN
 %token IF IN INT LOOP MODULE OF PRINT PRINTLN PROCEDURE REPEAT RETURN READ REAL
 %token STR RECORD THEN TRUE TYPE USE UTIL VAR WHILE
 %token <s_Val> STR_CONST
@@ -61,7 +61,7 @@ vector<string> idStack;
 
                     stl.push();
                   }
-                    opt_var_dec opt_proc_dec BEGIN opt_statement END ID
+                    opt_var_dec opt_proc_dec BEGINT opt_statement END ID
                   {
                     Trace("module end");
                     idInfo *info = stl.lookup(*$9);
@@ -181,7 +181,7 @@ vector<string> idStack;
 
                     stl.push();
                   }
-                    '(' opt_args ')' opt_ret_type opt_var_dec BEGIN opt_statement END ID
+                    '(' opt_args ')' opt_ret_type opt_var_dec BEGINT opt_statement END ID
                   {
                     Trace("procedure end");
                     idInfo *info = stl.lookup(*$12);

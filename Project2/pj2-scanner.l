@@ -48,7 +48,7 @@ STRING          (\"(\"\"|[^"\n])*\")
 
 "array"         { token(ARRAY); return ARRAY;}
 "boolean"       { token(BOOL); return BOOL;}
-"begin"         { token(BEGIN); return BEGIN;}
+"begin"         { token(BEGINT); return BEGINT;}
 "break"         { token(BREAK); return BREAK;}
 "char"          { token(CHAR); return CHAR;}
 "case"          { token(CASE); return CASE;}
