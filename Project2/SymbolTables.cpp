@@ -25,7 +25,7 @@ void SymbolTable::dump()
 {
   cout << "<id>\t<flag>\t<type>\t<value>" << endl;
   string s;
-  for (int i = 0; i < symbolList[i].length; i++)
+  for (int i = 0; i < symbolList.size(); i++)
   {
     idInfo info = symbolMap[symbolList[i]];
     s = info.id + "\t";

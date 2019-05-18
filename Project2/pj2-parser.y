@@ -179,7 +179,7 @@ vector<string> idStack;
 
                     stl.push();
                   }
-                    '(' opt_args ')' opt_ret_type opt_var_dec BEGINT opt_statement END ID
+                    '(' opt_args ')' opt_ret_type opt_var_dec BEGINT opt_statement END ID ';'
                   {
                     Trace("procedure end");
                     idInfo *info = stl.lookup(*$12);
@@ -287,13 +287,13 @@ vector<string> idStack;
                   ;
 
 /* conditional */
-                  conditional: IF '(' expression ')' THEN opt_statement ELSE opt_statement END
+                  conditional: IF '(' expression ')' THEN opt_statement ELSE opt_statement END ';'
                   {
                     Trace("statement : if else");
 
                     if ($3->type != bool_Type) yyerror("condition type error");
                   }
-                  | IF '(' expression ')' THEN opt_statement END
+                  | IF '(' expression ')' THEN opt_statement END ';'
                   {
                     Trace("statement : if");
 
