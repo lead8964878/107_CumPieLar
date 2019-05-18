@@ -1,0 +1,11 @@
+*.swp
+*.rs
+*.rust
+*.jasm
+*.class
+.DS_Store
+lex.yy.*
+y.tab.*
+scanner
+parser
+compiler
