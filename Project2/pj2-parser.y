@@ -57,10 +57,11 @@ vector<string> idStack;
                     idInfo *info = new idInfo();
                     info->flag = module_Flag;
                     info->valueInitialed = false;
-                    
+                    stl.insert(*$2, *info); /* insert module */
+
                     stl.push();
                   }
-                    opt_var_dec opt_proc_dec BEGIN opt_statement END ID '.'
+                    opt_var_dec opt_proc_dec BEGIN opt_statement END ID
                   {
                     Trace("module end");
                     idInfo *info = stl.lookup(*$8);
@@ -288,13 +289,13 @@ vector<string> idStack;
                   ;
 
 /* conditional */
-                  conditional: IF '(' expression ')' then opt_statement ELSE opt_statement END
+                  conditional: IF '(' expression ')' THEN opt_statement ELSE opt_statement END
                   {
                     Trace("statement : if else");
 
                     if ($3->type != boolType) yyerror("condition type error");
                   }
-                  | IF '(' expression ')' then opt_statement END
+                  | IF '(' expression ')' THEN opt_statement END
                   {
                     Trace("statement : if");
 
