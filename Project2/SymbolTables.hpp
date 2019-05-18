@@ -67,7 +67,7 @@ class SymbolTableList {
     void push();
     bool pop();
     int insert(string id, idInfo info);
-    int SymbolTableList::insert(string id, int type, int start,int end);
+    int insert(string id, int type, int start,int end);
     idInfo *lookup(string id);
     void dump();
     void setFuncType(int type);
