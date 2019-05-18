@@ -101,7 +101,7 @@ vector<string> idStack;
                   ;
 
 /* variable declaration */
-                  var_dec: IDS ':' var_type ';'
+                  var_dec: ids ':' var_type ';'
                   {
                     for(int i = 0 ; i < idStack.size() ; i++)
                     {
