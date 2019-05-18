@@ -6,7 +6,7 @@ SymbolTable::SymbolTable()
 
 }
 
-int SymbolTable::insert(string id, int type, int flag, idValue value, bool valueInitialed)
+int SymbolTable::insert(string id, int type, int prefix, idValue value, bool valueInitialed)
 {
   if (symbolMap.find(id) != symbolMap.end())
     return -1;
@@ -14,7 +14,7 @@ int SymbolTable::insert(string id, int type, int flag, idValue value, bool value
     symbolList.push_back(id);
     symbolMap[id].id = id;
     symbolMap[id].type = type;
-    symbolMap[id].flag = flag;
+    symbolMap[id].prefix = prefix;
     symbolMap[id].value = value;
     symbolMap[id].valueInitialed = valueInitialed;
     return 1;
@@ -23,17 +23,17 @@ int SymbolTable::insert(string id, int type, int flag, idValue value, bool value
 
 void SymbolTable::dump()
 {
-  cout << "<id>\t\t<flag>\t\t<type>\t\t<value>" << endl;
+  cout << "=id=\t\t=prefix=\t\t=type=\t\t=value=" << endl;
   string s;
   for (int i = 0; i < symbolList.size(); i++)
   {
     idInfo info = symbolMap[symbolList[i]];
     s = info.id + "\t\t";
-    switch (info.flag) {
-      case const_Flag: s += "const\t\t"; break;
-      case variable_Flag: s += "var\t\t"; break;
-      case procedure_Flag: s += "proc\t\t"; break;
-      case module_Flag: s += "module\t\t"; break;
+    switch (info.prefix) {
+      case const_Prefix: s += "const\t\t"; break;
+      case variable_Prefix: s += "var\t\t"; break;
+      case procedure_Prefix: s += "proc\t\t"; break;
+      case module_Prefix: s += "module\t\t"; break;
     }
     switch (info.type) {
       case string_Type: s += "string\t\t"; break;
@@ -51,7 +51,7 @@ void SymbolTable::dump()
         case string_Type: s += info.value.s_Val; break;
       }
     }
-    if (info.flag == procedure_Flag) {
+    if (info.prefix == procedure_Prefix) {
       s += "{ ";
       for (int i = 0; i < info.value.proc_Val.size(); ++i) {
         switch (info.value.proc_Val[i].type) {
@@ -123,7 +123,7 @@ bool SymbolTableList::pop()
 
 int SymbolTableList::insert(string id, idInfo info)
 {
-  return symboltableList[top].insert(id, info.type, info.flag, info.value, info.valueInitialed);
+  return symboltableList[top].insert(id, info.type, info.prefix, info.value, info.valueInitialed);
 }
 
 int SymbolTableList::insert(string id, int type, int start,int end)
@@ -134,9 +134,9 @@ int SymbolTableList::insert(string id, int type, int start,int end)
     val.arrayStart_Index = start;
     val.arrayEnd_Index = end;
     val.array_Val[i].type = type;
-    val.array_Val[i].flag = variable_Flag;
+    val.array_Val[i].prefix = variable_Prefix;
   }
-  return symboltableList[top].insert(id, array_Type, variable_Flag, val, false);
+  return symboltableList[top].insert(id, array_Type, variable_Prefix, val, false);
 }
 
 idInfo *SymbolTableList::lookup(string id)
@@ -171,7 +171,7 @@ void SymbolTableList::addFuncArg(string id, idInfo info)
 //Extra Func Definition
 bool isConst(idInfo info)
 {
-  if (info.flag == const_Flag) 
+  if (info.prefix == const_Prefix) 
   return true;
 
   return false;
@@ -182,7 +182,7 @@ idInfo *setConst_i(int val)
   idInfo* info = new idInfo();
   info->type = int_Type;
   info->value.i_Val = val;
-  info->flag = const_Flag;
+  info->prefix = const_Prefix;
   return info;
 }
 
@@ -191,7 +191,7 @@ idInfo *setConst_r(double val)
   idInfo* info = new idInfo();
   info->type = real_Type;
   info->value.r_Val = val;
-  info->flag = const_Flag;
+  info->prefix = const_Prefix;
   return info;
 }
 
@@ -200,7 +200,7 @@ idInfo *setConst_b(bool val)
   idInfo* info = new idInfo();
   info->type = bool_Type;
   info->value.b_Val = val;
-  info->flag = const_Flag;
+  info->prefix = const_Prefix;
   return info;
 }
 
@@ -209,6 +209,6 @@ idInfo *setConst_s(string *val)
   idInfo* info = new idInfo();
   info->type = string_Type;
   info->value.s_Val = *val;
-  info->flag = const_Flag;
+  info->prefix = const_Prefix;
   return info;
 }

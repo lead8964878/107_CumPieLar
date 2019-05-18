@@ -5,11 +5,11 @@
 
 using namespace std;
 
-enum idFlag {
-  const_Flag,
-  variable_Flag,
-  module_Flag,
-  procedure_Flag
+enum idPrefix {
+  const_Prefix,
+  variable_Prefix,
+  module_Prefix,
+  procedure_Prefix
 };
 
 enum type{
@@ -38,7 +38,7 @@ struct idValue {
 struct idInfo {
   string id = "";
   int type = int_Type;
-  int flag = variable_Flag;
+  int prefix = variable_Prefix;
   idValue value;
   bool valueInitialed = false;
 };

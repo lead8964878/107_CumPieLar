@@ -55,7 +55,7 @@ vector<string> idStack;
                   {
                     Trace("module start");
                     idInfo *info = new idInfo();
-                    info->flag = module_Flag;
+                    info->prefix = module_Prefix;
                     info->valueInitialed = false;
                     stl.insert(*$2, *info); /* insert module */
 
@@ -64,7 +64,7 @@ vector<string> idStack;
                   {
                     Trace("module end");
                     idInfo *info = stl.lookup(*$9);
-                    if (info == NULL) yyerror("module id imcompatible");
+                    if (info == NULL) yyerror("module id imcompatible"); /* no corresponding module id*/
 
                     stl.dump();
                   }
@@ -89,7 +89,7 @@ vector<string> idStack;
 
                     if (!isConst(*$3)) yyerror("expression not constant value"); /* constant check */
 
-                    $3->flag = const_Flag;
+                    $3->prefix = const_Prefix;
                     $3->valueInitialed = true;
                     if (stl.insert(*$1, *$3) == -1) yyerror("constant redefinition"); /* symbol check */
                   }
@@ -108,7 +108,7 @@ vector<string> idStack;
                       Trace("variable declaration");
 
                       idInfo *info = new idInfo();
-                      info->flag = variable_Flag;
+                      info->prefix = variable_Prefix;
                       info->type = $3;
                       info->valueInitialed = false;
                       if (stl.insert(idStack[i], *info) == -1) yyerror("variable id redefinition"); /* symbol check */
@@ -118,16 +118,16 @@ vector<string> idStack;
                   ;
 
 /* array declaration */
-                  array_dec: IDS ':' ARRAY '[' expression ',' expression ']' OF var_type ';' 
+                  array_dec: ids ':' ARRAY '[' expression ',' expression ']' OF var_type ';' 
                   {
-                    for(int i = 0 ; i < idStack.size() ; i++)
-                    {
-                      Trace("array declaration");
+                    Trace("array declaration");
 
-                      if (!isConst(*$5) || !isConst(*$7)) yyerror("array size not constant");
-                      if ($5->type != int_Type || $7->type != int_Type) yyerror("array size not integer");
-                      if ($5->value.i_Val < 0 || $7->value.i_Val < 0) yyerror("array index < 0");
-                      if ($7->value.i_Val - $5->value.i_Val < 0) yyerror("array size < 0");
+                    if (!isConst(*$5) || !isConst(*$7)) yyerror("array size not constant");
+                    if ($5->type != int_Type || $7->type != int_Type) yyerror("array size not integer");
+                    if ($5->value.i_Val < 0 || $7->value.i_Val < 0) yyerror("array index < 0");
+                    if ($7->value.i_Val - $5->value.i_Val < 0) yyerror("array size < 0");
+                    for(int i = 0 ; i < idStack.size() ; i++)
+                    {              
                       if (stl.insert(idStack[i], $10, $5->value.i_Val , $7->value.i_Val) == -1) yyerror("array id redefinition");
                     }
                     idStack.clear();
@@ -135,7 +135,7 @@ vector<string> idStack;
                   ;
 
 /* Various ID declaration*/
-                  IDS: ID ',' IDS
+                  ids: ID ',' ids
                   {
                     idStack.push_back(*$1);
                   }
@@ -173,7 +173,7 @@ vector<string> idStack;
                   proc_dec: PROCEDURE ID
                   {
                     idInfo *info = new idInfo();
-                    info->flag = procedure_Flag;
+                    info->prefix = procedure_Prefix;
                     info->valueInitialed = false;
                     if (stl.insert(*$2, *info) == -1) yyerror("procedure id redefinition"); /* symbol check */
 
@@ -204,7 +204,7 @@ vector<string> idStack;
                   arg: ID ':' var_type
                   {
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = $3;
                     info->valueInitialed = false;
                     if (stl.insert(*$1, *info) == -1) yyerror("argument id redefinition");
@@ -243,8 +243,8 @@ vector<string> idStack;
 
                     idInfo *info = stl.lookup(*$1);
                     if (info == NULL) yyerror("undeclared indentifier"); /* declaration check */
-                    if (info->flag == const_Flag) yyerror("can't assign to constant"); /* constant check */
-                    if (info->flag == procedure_Flag) yyerror("can't assign to procedure"); /* procedure check */
+                    if (info->prefix == const_Prefix) yyerror("can't assign to constant"); /* constant check */
+                    if (info->prefix == procedure_Prefix) yyerror("can't assign to procedure"); /* procedure check */
                     if (info->type != $3->type) yyerror("type not match"); /* type check */
                   }
                   | ID '[' expression ']' ASSIGN expression ';'
@@ -253,7 +253,7 @@ vector<string> idStack;
 
                     idInfo *info = stl.lookup(*$1);
                     if (info == NULL) yyerror("undeclared indentifier"); /* declaration check */
-                    if (info->flag != variable_Flag) yyerror("not a variable"); /* variable check */
+                    if (info->prefix != variable_Prefix) yyerror("not a variable"); /* variable check */
                     if (info->type != array_Type) yyerror("variable not an array"); /* type check */
                     if ($3->type != int_Type) yyerror("index not integer"); /* index type check */
                     if ($3->value.i_Val > info->value.arrayEnd_Index || $3->value.i_Val < info->value.arrayStart_Index) yyerror("index out of range");
@@ -321,7 +321,7 @@ vector<string> idStack;
 
                     idInfo *info = stl.lookup(*$1);
                     if (info == NULL) yyerror("undeclared indentifier"); /* declaration check */
-                    if (info->flag != procedure_Flag) yyerror("not a procedure"); /* procedure check */
+                    if (info->prefix != procedure_Prefix) yyerror("not a procedure"); /* procedure check */
 
 
                     vector<idInfo> para = info->value.proc_Val;
@@ -400,7 +400,7 @@ vector<string> idStack;
                     if ($2->type != int_Type && $2->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = $2->type;
                     $$ = info;
                   }
@@ -412,7 +412,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = $1->type;
                     $$ = info;
                   }
@@ -424,7 +424,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = $1->type;
                     $$ = info;
                   }
@@ -436,7 +436,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type && $1->type != string_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = $1->type;
                     $$ = info;
                   }
@@ -448,7 +448,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = $1->type;
                     $$ = info;
                   }
@@ -460,7 +460,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -472,7 +472,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -484,7 +484,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -496,7 +496,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -508,7 +508,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -520,7 +520,7 @@ vector<string> idStack;
                     if ($1->type != int_Type && $1->type != real_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -532,7 +532,7 @@ vector<string> idStack;
                     if ($1->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -544,7 +544,7 @@ vector<string> idStack;
                     if ($1->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
@@ -555,7 +555,7 @@ vector<string> idStack;
                     if ($2->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
-                    info->flag = variable_Flag;
+                    info->prefix = variable_Prefix;
                     info->type = bool_Type;
                     $$ = info;
                   }
