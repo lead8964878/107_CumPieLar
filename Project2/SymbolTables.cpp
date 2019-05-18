@@ -28,20 +28,20 @@ void SymbolTable::dump()
   for (int i = 0; i < symbolList.size(); i++)
   {
     idInfo info = symbolMap[symbolList[i]];
-    s = info.id + "\t";
+    s = info.id + "\t\t";
     switch (info.flag) {
-      case const_Flag: s += "const\t"; break;
-      case variable_Flag: s += "var\t"; break;
-      case procedure_Flag: s += "proc\t"; break;
-      case module_Flag: s += "module\t"; break;
+      case const_Flag: s += "const\t\t"; break;
+      case variable_Flag: s += "var\t\t"; break;
+      case procedure_Flag: s += "proc\t\t"; break;
+      case module_Flag: s += "module\t\t"; break;
     }
     switch (info.type) {
-      case string_Type: s += "string\t"; break;
-      case int_Type: s += "int\t"; break;
-      case real_Type: s += "float\t"; break;
-      case bool_Type: s += "bool\t"; break;
-      case array_Type: s += "array\t"; break;
-      case void_Type: s += "void\t"; break;
+      case string_Type: s += "string\t\t"; break;
+      case int_Type: s += "int\t\t"; break;
+      case real_Type: s += "float\t\t"; break;
+      case bool_Type: s += "bool\t\t"; break;
+      case array_Type: s += "array\t\t"; break;
+      case void_Type: s += "void\t\t"; break;
     }
     if (info.valueInitialed) {
       switch (info.type) {
