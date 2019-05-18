@@ -17,7 +17,7 @@ char buf[MAX_LINE_LENG];
 
 %}
 
-DELIMITERS      ([,:.()[\]{};])
+DELIMITERS      ([,:.()\[\]{};])
 ARITHMETIC      ([-+*/])
 LOGICAL         ([~])
 RELATIONAL      ([<>=])
