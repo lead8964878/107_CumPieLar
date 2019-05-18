@@ -129,7 +129,7 @@ STRING          (\"(\"\"|[^"\n])*\")
 
 <COMMENT>\n {
 	LIST;
-	printf("%d: %s", linenum, buf);
+	if(Output_Scanner) printf("%d: %s", linenum, buf);
 	linenum++;
 	buf[0] = '\0';
 }

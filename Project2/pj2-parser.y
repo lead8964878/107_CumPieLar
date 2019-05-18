@@ -59,7 +59,6 @@ vector<string> idStack;
                     info->valueInitialed = false;
                     stl.insert(*$2, *info); /* insert module */
 
-                    stl.push();
                   }
                     opt_var_dec opt_proc_dec BEGINT opt_statement END ID '.'
                   {
@@ -68,7 +67,6 @@ vector<string> idStack;
                     if (info == NULL) yyerror("module id imcompatible");
 
                     stl.dump();
-                    stl.pop();
                   }
                   ;
 
