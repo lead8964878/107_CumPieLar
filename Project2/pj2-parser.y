@@ -64,7 +64,7 @@ vector<string> idStack;
                     opt_var_dec opt_proc_dec BEGIN opt_statement END ID
                   {
                     Trace("module end");
-                    idInfo *info = stl.lookup(*$8);
+                    idInfo *info = stl.lookup(*$9);
                     if (info == NULL) yyerror("module id imcompatible");
 
                     stl.dump();
@@ -184,7 +184,7 @@ vector<string> idStack;
                     '(' opt_args ')' opt_ret_type opt_var_dec BEGIN opt_statement END ID
                   {
                     Trace("procedure end");
-                    idInfo *info = stl.lookup(*$11);
+                    idInfo *info = stl.lookup(*$12);
                     if (info == NULL) yyerror("procedure name imcompatible");
 
                     stl.dump();
