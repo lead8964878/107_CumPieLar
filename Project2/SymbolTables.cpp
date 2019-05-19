@@ -65,10 +65,10 @@ void SymbolTable::dump()
     }
     if (info.type == array_Type) {
 	  switch (info.value.array_Val[0].type) {
-        case int_Type: s += "int\t"; break;
-        case real_Type: s += "real\t"; break;
-        case bool_Type: s += "bool\t"; break;
-        case string_Type: s += "str\t"; break;
+        case int_Type: s += "int\t\t"; break;
+        case real_Type: s += "real\t\t"; break;
+        case bool_Type: s += "bool\t\t"; break;
+        case string_Type: s += "str\t\t"; break;
       }
       s += "{ ";
       s += to_string(info.value.arrayStart_Index)+" , "+ to_string(info.value.arrayEnd_Index) + " }";

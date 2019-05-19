@@ -11,7 +11,7 @@ using namespace std;
 
 #define MAX_LINE_LENG 256
 
-int Output_Scanner=1;
+int Output_Scanner=0;
 int linenum = 1;
 char buf[MAX_LINE_LENG];
 

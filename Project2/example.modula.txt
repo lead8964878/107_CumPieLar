@@ -26,6 +26,12 @@ procedure add(a:integer, b:integer) : integer
 begin
   return a+b;
 end add;
+
+procedure minus(alive:boolean, dead:boolean) : boolean
+const killer = true;
+begin
+  return killer&&alive||dead;
+end add;
     
 // main function
 begin
