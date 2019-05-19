@@ -35,7 +35,7 @@ vector<string> idStack;
 %token <b_Val> BOOL_CONST
 %token <s_Val> ID
 
-/* type for non-terminal */
+/* non-terminal type */
 %type <val_Type> var_type opt_ret_type
 %type <info> const_value expression proc_invocation
 
@@ -78,8 +78,8 @@ vector<string> idStack;
                   ;
 
 /* one or more constant declarations*/
-                  multi_const_dec: const_dec ',' multi_const_dec
-                  | const_dec /* one */
+                  multi_const_dec: multi_const_dec const_dec 
+                  | CONST const_dec /* one */
                   ;
 
 /* constant declaration */
@@ -96,8 +96,8 @@ vector<string> idStack;
                   ;
 
 /* one or more variable declarations*/
-                  multi_var_dec: var_dec ',' multi_var_dec
-                  | var_dec /* one */
+                  multi_var_dec: multi_var_dec var_dec
+                  | VAR var_dec /* one */
                   ;
 
 /* variable declaration */
