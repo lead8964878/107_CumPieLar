@@ -6,9 +6,20 @@ module Example
 
 // constants
 const a = 5;
+	  sauce = "xo sauce";
+	  tiger = 20.5;
+	  out = true;
+
+abc : array [ 4 , 10 ] of integer;
+abbc : array [ 2 , 12 ] of boolean;
+acbc,zzzz : array [ 3 , 9  ] of real;
+
 
 // variables
-var c: integer;
+var c,f: integer;
+	x,j: boolean;
+
+aabc : array [ 0 , 120 ] of string;
     
 // procedure declaration
 procedure add(a:integer, b:integer) : integer

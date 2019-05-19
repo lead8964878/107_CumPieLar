@@ -71,15 +71,15 @@ vector<string> idStack;
                   ;
 
 /* zero or more variable and constant declarations */
-                  opt_var_dec: CONST multi_const_dec opt_var_dec
-                  | VAR multi_var_dec opt_var_dec
-                  | array_dec opt_var_dec
+                  opt_var_dec: multi_const_dec opt_var_dec
+				  | array_dec opt_var_dec
+                  | multi_var_dec opt_var_dec
                   | /* zero */
                   ;
 
 /* one or more constant declarations*/
-                  multi_const_dec: const_dec multi_const_dec
-                  | const_dec /* one */
+                  multi_const_dec: multi_const_dec const_dec 
+                  | CONST const_dec /* one */
                   ;
 
 /* constant declaration */
@@ -96,8 +96,8 @@ vector<string> idStack;
                   ;
 
 /* one or more variable declarations*/
-                  multi_var_dec: var_dec multi_var_dec
-                  | var_dec /* one */
+                  multi_var_dec: multi_var_dec var_dec
+                  | VAR var_dec /* one */
                   ;
 
 /* variable declaration */
@@ -143,7 +143,7 @@ vector<string> idStack;
                   {
                     idStack.push_back(*$1);
                   }
-                  ;
+				  ;
 
 /* variable type */
                   var_type: INT

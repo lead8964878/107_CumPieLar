@@ -23,7 +23,7 @@ int SymbolTable::insert(string id, int type, int prefix, idValue value, bool val
 
 void SymbolTable::dump()
 {
-  cout << "=id=\t\t=prefix=\t\t=type=\t\t=value=" << endl;
+  cout << "=id=\t\t=prefix=\t=type=\t\t=value=" << endl;
   string s;
   for (int i = 0; i < symbolList.size(); i++)
   {
@@ -40,7 +40,6 @@ void SymbolTable::dump()
       case int_Type: s += "int\t\t"; break;
       case real_Type: s += "float\t\t"; break;
       case bool_Type: s += "bool\t\t"; break;
-      case array_Type: s += "array\t\t"; break;
       case void_Type: s += "void\t\t"; break;
     }
     if (info.valueInitialed) {
@@ -57,21 +56,21 @@ void SymbolTable::dump()
         switch (info.value.proc_Val[i].type) {
           case string_Type: s += "string "; break;
           case int_Type: s += "int "; break;
-          case real_Type: s += "float "; break;
+          case real_Type: s += "real "; break;
           case bool_Type: s += "bool "; break;
         }
       }
       s += "}";
     }
     if (info.type == array_Type) {
-      s += "{ ";
-      switch (info.value.array_Val[0].type) {
-        case int_Type: s += "int, "; break;
-        case real_Type: s += "float, "; break;
-        case bool_Type: s += "bool, "; break;
-        case string_Type: s += "string, "; break;
+	  switch (info.value.array_Val[0].type) {
+        case int_Type: s += "int array\t"; break;
+        case real_Type: s += "real array\t"; break;
+        case bool_Type: s += "bool array\t"; break;
+        case string_Type: s += "str array\t"; break;
       }
-      s += to_string(info.value.array_Val.size()) + " }";
+      s += "{ ";
+      s += to_string(info.value.arrayStart_Index)+" , "+ to_string(info.value.arrayEnd_Index) + " }";
     }
     cout << s << endl;
   }
