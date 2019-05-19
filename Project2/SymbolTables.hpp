@@ -6,6 +6,7 @@
 using namespace std;
 
 enum idPrefix {
+  array_Prefix,
   const_Prefix,
   variable_Prefix,
   module_Prefix,

@@ -72,7 +72,7 @@ vector<string> idStack;
 
 /* zero or more variable and constant declarations */
                   opt_var_dec: multi_const_dec opt_var_dec
-				  | array_dec opt_var_dec
+				          | array_dec opt_var_dec
                   | multi_var_dec opt_var_dec
                   | /* zero */
                   ;

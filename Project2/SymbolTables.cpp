@@ -30,6 +30,7 @@ void SymbolTable::dump()
     idInfo info = symbolMap[symbolList[i]];
     s = info.id + "\t\t";
     switch (info.prefix) {
+      case array_Prefix: s += "array\t\t"; break;
       case const_Prefix: s += "const\t\t"; break;
       case variable_Prefix: s += "var\t\t"; break;
       case procedure_Prefix: s += "proc\t\t"; break;
@@ -64,10 +65,10 @@ void SymbolTable::dump()
     }
     if (info.type == array_Type) {
 	  switch (info.value.array_Val[0].type) {
-        case int_Type: s += "int array\t"; break;
-        case real_Type: s += "real array\t"; break;
-        case bool_Type: s += "bool array\t"; break;
-        case string_Type: s += "str array\t"; break;
+        case int_Type: s += "int\t"; break;
+        case real_Type: s += "real\t"; break;
+        case bool_Type: s += "bool\t"; break;
+        case string_Type: s += "str\t"; break;
       }
       s += "{ ";
       s += to_string(info.value.arrayStart_Index)+" , "+ to_string(info.value.arrayEnd_Index) + " }";
@@ -133,9 +134,9 @@ int SymbolTableList::insert(string id, int type, int start,int end)
     val.arrayStart_Index = start;
     val.arrayEnd_Index = end;
     val.array_Val[i].type = type;
-    val.array_Val[i].prefix = variable_Prefix;
+    val.array_Val[i].prefix = array_Prefix;
   }
-  return symboltableList[top].insert(id, array_Type, variable_Prefix, val, false);
+  return symboltableList[top].insert(id, array_Type, array_Prefix, val, false);
 }
 
 idInfo *SymbolTableList::lookup(string id)
