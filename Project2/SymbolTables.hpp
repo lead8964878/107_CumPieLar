@@ -48,7 +48,6 @@ class SymbolTable {
   private:
     vector<string> symbolList;
     map<string, idInfo> symbolMap;
-    int index; 
   public:
     SymbolTable();
     int insert(string id, int type, int flag, idValue value, bool valueInitialed);

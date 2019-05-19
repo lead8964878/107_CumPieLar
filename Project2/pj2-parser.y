@@ -355,26 +355,6 @@ vector<string> idStack;
                   }
                   ;
 
-/* constant value */
-                  const_value: 
-                    INT_CONST
-                  {
-                    $$ = setConst_i($1);
-                  }
-                  | REAL_CONST
-                  {
-                    $$ = setConst_r($1);
-                  }
-                  | BOOL_CONST
-                  {
-                    $$ = setConst_b($1);
-                  }
-                  | STR_CONST
-                  {
-                    $$ = setConst_s($1);
-                  }
-                  ;
-
 /* expression */
                   expression: ID
                   {
@@ -563,6 +543,26 @@ vector<string> idStack;
                   {
                     Trace("(expression)");
                     $$ = $2;
+                  }
+                  ;
+
+/* numeric value */
+                  const_value: 
+                    INT_CONST
+                  {
+                    $$ = setConst_i($1);
+                  }
+                  | REAL_CONST
+                  {
+                    $$ = setConst_r($1);
+                  }
+                  | BOOL_CONST
+                  {
+                    $$ = setConst_b($1);
+                  }
+                  | STR_CONST
+                  {
+                    $$ = setConst_s($1);
                   }
                   ;
 
