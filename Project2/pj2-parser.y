@@ -78,8 +78,8 @@ vector<string> idStack;
                   ;
 
 /* one or more constant declarations*/
-                  multi_const_dec: multi_const_dec const_dec 
-                  | CONST const_dec /* one */
+                  multi_const_dec: const_dec ',' multi_const_dec
+                  | const_dec /* one */
                   ;
 
 /* constant declaration */
@@ -96,8 +96,8 @@ vector<string> idStack;
                   ;
 
 /* one or more variable declarations*/
-                  multi_var_dec: multi_var_dec var_dec
-                  | VAR var_dec /* one */
+                  multi_var_dec: var_dec ',' multi_var_dec
+                  | var_dec /* one */
                   ;
 
 /* variable declaration */
@@ -120,14 +120,14 @@ vector<string> idStack;
 /* array declaration */
                   array_dec: ids ':' ARRAY '[' expression ',' expression ']' OF var_type ';' 
                   {
-                    Trace("array declaration");
-
-                    if (!isConst(*$5) || !isConst(*$7)) yyerror("array size not constant");
-                    if ($5->type != int_Type || $7->type != int_Type) yyerror("array size not integer");
-                    if ($5->value.i_Val < 0 || $7->value.i_Val < 0) yyerror("array index < 0");
-                    if ($7->value.i_Val - $5->value.i_Val < 0) yyerror("array size < 0");
                     for(int i = 0 ; i < idStack.size() ; i++)
-                    {              
+                    {          
+                      Trace("array declaration");
+
+                      if (!isConst(*$5) || !isConst(*$7)) yyerror("array size not constant");
+                      if ($5->type != int_Type || $7->type != int_Type) yyerror("array size not integer");
+                      if ($5->value.i_Val < 0 || $7->value.i_Val < 0) yyerror("array index < 0");
+                      if ($7->value.i_Val - $5->value.i_Val < 0) yyerror("array size < 0");    
                       if (stl.insert(idStack[i], $10, $5->value.i_Val , $7->value.i_Val) == -1) yyerror("array id redefinition");
                     }
                     idStack.clear();
