@@ -215,3 +215,11 @@ idInfo *setConst_s(string *val)
   info->prefix = const_Prefix;
   return info;
 }
+
+int getValue(idInfo info)
+{
+  if(info.type == bool_Type){
+    return info.value.b_Val;
+  }
+  return info.value.i_Val;
+}

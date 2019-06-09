@@ -60,7 +60,7 @@ void outCondOp(int op);
 
 void outMainStart();
 void outProcStart(idInfo info);
-void outVoidFuncEnd();
+void outVoidProcEnd();
 
 void outPrintStart();
 void outPrintStr();
@@ -71,7 +71,7 @@ void outPrintlnInt();
 void outIReturn();
 void outReturn();
 
-void outCallFunc(idInfo info);
+void outCallProc(idInfo info);
 
 void outIfStart();
 void outElse();
