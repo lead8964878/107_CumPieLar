@@ -3,7 +3,7 @@
 //Symbol Table Func Definition
 SymbolTable::SymbolTable()
 {
-
+  index = 0;
 }
 
 int SymbolTable::insert(string id, int type, int prefix, idValue value, bool valueInitialed)
@@ -17,7 +17,8 @@ int SymbolTable::insert(string id, int type, int prefix, idValue value, bool val
     symbolMap[id].prefix = prefix;
     symbolMap[id].value = value;
     symbolMap[id].valueInitialed = valueInitialed;
-    return 1;
+    symbolMap[id].index = index;
+    return index++;
   }
 }
 
@@ -161,7 +162,7 @@ int SymbolTableList::getIndex(string id)
       }
       else {
         int idx = 0;
-        for (int j = 1; j < i; ++j) 
+        for (int j = 1; j < i; j++) 
           idx += symboltableList[j].getSymbolListSize();
 
         idx += symboltableList[i].getIndex(id);
@@ -169,7 +170,7 @@ int SymbolTableList::getIndex(string id)
       }
     }
   }
-  return -65535;
+  return -81000;
 }
 
 bool SymbolTableList::isGlobal()
@@ -195,6 +196,7 @@ idInfo *setConst_i(int val)
   info->type = int_Type;
   info->value.i_Val = val;
   info->prefix = const_Prefix;
+  info->index = 0;
   return info;
 }
 
@@ -204,6 +206,7 @@ idInfo *setConst_b(bool val)
   info->type = bool_Type;
   info->value.b_Val = val;
   info->prefix = const_Prefix;
+  info->index = 0;
   return info;
 }
 
@@ -213,6 +216,7 @@ idInfo *setConst_s(string *val)
   info->type = string_Type;
   info->value.s_Val = *val;
   info->prefix = const_Prefix;
+  info->index = 0;
   return info;
 }
 
