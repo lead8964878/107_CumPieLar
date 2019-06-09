@@ -26,7 +26,7 @@ clean:
 	$(RM) $(TARGET) lex.yy.cpp y.tab.*
 
 run: $(TARGET)
-	 ./$(TARGET) $(file).module
+	 ./$(TARGET) $(file).modula.txt
 	 $(javaa) $(file).jasm
 	 java $(file)
 	 
