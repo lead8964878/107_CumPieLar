@@ -22,6 +22,7 @@ ofstream out;
 %union {
   string *s_Val;
   int i_Val;
+  double r_Val;
   bool b_Val;
   int val_Type;
   idInfo* info;
@@ -29,11 +30,12 @@ ofstream out;
 
 /* tokens */
 %token LE GE EQ NEQ AND OR
-%token ASSIGN BOOL BEGINT BREAK CHAR CASE CONST CONTINUE DO ELSE END EXIT FALSE FOR FN
-%token IF IN INT LOOP MODULE OF PRINT PRINTLN PROCEDURE REPEAT RETURN
+%token ARRAY ASSIGN BOOL BEGINT BREAK CHAR CASE CONST CONTINUE DO ELSE END EXIT FALSE FOR FN
+%token IF IN INT LOOP MODULE OF PRINT PRINTLN PROCEDURE READ REAL REPEAT RETURN
 %token STR RECORD THEN TRUE TYPE USE UTIL VAR WHILE
 %token <s_Val> STR_CONST
 %token <i_Val> INT_CONST
+%token <r_Val> REAL_CONST
 %token <b_Val> BOOL_CONST
 %token <s_Val> ID
 
@@ -270,7 +272,7 @@ ofstream out;
                   PRINT expression ';'
                   {
                     Trace("statement : print expression");
-                    if ($3->type == str_Type) 
+                    if ($3->type == string_Type) 
                       outPrintStr();
                     else 
                       outPrintInt();
@@ -282,7 +284,7 @@ ofstream out;
                   PRINTLN expression ';'
                   {
                     Trace("statement : println expression");
-                    if ($3->type == str_Type) 
+                    if ($3->type == string_Type) 
                       outPrintlnStr();
                     else 
                       outPrintlnInt();
@@ -403,7 +405,7 @@ ifStart:
                     $$ = info;
 
                     if (!stl.isGlobal() && isConst(*info)) {
-                      if (info->type == str_Type)
+                      if (info->type == string_Type)
                        outConstStr(info->value.s_Val);
                       else if (info->type == int_Type || info->type == bool_Type) 
                        outConstInt(getValue(*info));
@@ -419,7 +421,7 @@ ifStart:
                   | const_value
                   {
                     if (!stl.isGlobal()) {
-                      if ($1->type == strType) 
+                      if ($1->type == string_Type) 
                         outConstStr($1->value.s_Val);
                       else if ($1->type == int_Type || $1->type == bool_Type) 
                         outConstInt(getValue(*$1));
@@ -664,7 +666,7 @@ void yyerror(string s) {
   exit(1);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
   yyin = fopen(argv[1], "r");
   string source = string(argv[1]);
   int dot = source.find(".");

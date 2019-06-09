@@ -45,9 +45,7 @@ void outProgramEnd();
 void outBlockEnd();
 
 void outGlobalVar(string id);
-void outGlobalVarWithVal(string id, int val);
-
-void outLocalVarWithVal(int idx, int val);
+void outLocalVar(int idx);
 
 void outConstStr(string str);
 void outConstInt(int val);
@@ -61,7 +59,7 @@ void outOperator(char op);
 void outCondOp(int op);
 
 void outMainStart();
-void outFuncStart(idInfo info);
+void outProcStart(idInfo info);
 void outVoidFuncEnd();
 
 void outPrintStart();
