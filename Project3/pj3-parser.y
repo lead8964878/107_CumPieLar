@@ -63,7 +63,7 @@ ofstream out;
                     idInfo *info = new idInfo();
                     info->prefix = module_Prefix;
                     info->valueInitialed = false;
-                    stl.insert(*$2, *info); /* insert module */
+                    stl.insert(*$3, *info); /* insert module */
 
                   }
                   opt_var_dec opt_proc_dec 
@@ -73,7 +73,7 @@ ofstream out;
                   BEGINT opt_statement END ID '.'
                   {
                     Trace("module end");
-                    idInfo *info = stl.lookup(*$9);
+                    idInfo *info = stl.lookup(*$11);
                     if (info == NULL) yyerror("module id imcompatible"); /* no corresponding module id*/
 
                     stl.dump();
@@ -188,7 +188,7 @@ ofstream out;
                   opt_var_dec BEGINT opt_statement END ID ';'
                   {
                     Trace("procedure end");
-                    idInfo *info = stl.lookup(*$12);
+                    idInfo *info = stl.lookup(*$13);
                     if (info == NULL) yyerror("procedure name imcompatible");
 
                     outBlockEnd();
@@ -304,7 +304,7 @@ ofstream out;
                   ;
 
 /* conditional */
-                  conditional: IF '(' expression ')' ifstart THEN opt_statement ELSE 
+                  conditional: IF '(' expression ')' ifStart THEN opt_statement ELSE 
                   {
                     outElse();
                   }
@@ -315,7 +315,7 @@ ofstream out;
                     if ($3->type != bool_Type) yyerror("condition type error");
                     outIfElseEnd();
                   }
-                  | IF '(' expression ')' ifstart THEN opt_statement END ';'
+                  | IF '(' expression ')' ifStart THEN opt_statement END ';'
                   {
                     Trace("statement : if");
 
@@ -343,7 +343,7 @@ ifStart:
                   {
                     Trace("statement : while loop");
 
-                    if ($3->type != bool_Type) yyerror("condition type error");
+                    if ($4->type != bool_Type) yyerror("condition type error");
 
                     outWhileEnd();
                   }
