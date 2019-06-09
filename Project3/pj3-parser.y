@@ -542,7 +542,7 @@ ifStart:
                     Trace("expression EQUAL expression");
 
                     if ($1->type != $3->type) yyerror("type not match"); /* type check */
-                    if ($1->type != int_Type) yyerror("operator error"); /* operator check */
+                    if ($1->type != int_Type && $1->type != bool_Type) yyerror("operator error"); /* operator check */
 
                     idInfo *info = new idInfo();
                     info->prefix = variable_Prefix;
