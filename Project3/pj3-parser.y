@@ -80,7 +80,7 @@ ofstream out;
 
                     stl.dump();
 
-                    outVoidFuncEnd();
+                    outVoidProcEnd();
 
                     outProgramEnd();
                   }
@@ -373,7 +373,7 @@ ifStart:
 
                     if(info->type == void_Type) yyerror("procedure return type is void"); /* return type check */
 
-                    outCallFunc(*info);
+                    outCallProc(*info);
 
                     $$ = info;
                     procedures.pop_back();
