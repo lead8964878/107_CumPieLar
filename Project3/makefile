@@ -20,7 +20,7 @@ lex.yy.cpp: pj3-scanner.l
 	$(LEX) -o lex.yy.cpp pj3-scanner.l
 
 y.tab.cpp: pj3-parser.y
-	$(YACC) -d pj3-parser.y -o y.tab.cpp -v
+	$(YACC) -d pj3-parser.y -o y.tab.cpp
 
 clean:
 	$(RM) $(TARGET) lex.yy.cpp y.tab.*
