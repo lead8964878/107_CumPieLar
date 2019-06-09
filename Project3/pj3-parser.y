@@ -404,7 +404,7 @@ ifStart:
                     if (info == NULL) yyerror("undeclared indentifier"); /* declaration check */
                     $$ = info;
 
-                    if (!stl.isGlobal() && isConst(*info)) {
+                    if (isConst(*info)) {
                       if (info->type == string_Type)
                        outConstStr(info->value.s_Val);
                       else if (info->type == int_Type || info->type == bool_Type) 
@@ -420,12 +420,10 @@ ifStart:
                   }
                   | const_value
                   {
-                    if (!stl.isGlobal()) {
                       if ($1->type == string_Type) 
                         outConstStr($1->value.s_Val);
                       else if ($1->type == int_Type || $1->type == bool_Type) 
                         outConstInt(getValue(*$1));
-                    }
                   }
                   | proc_invocation
                   | '-' expression %prec UMINUS
