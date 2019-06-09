@@ -11,7 +11,7 @@ const a = 5;
 
 // variables
 var c,f: integer;
-	x,j: boolean;
+	x,j,citizena,citizenb: boolean;
 
 // procedure declaration
 procedure add(a:integer, b:integer) : integer
@@ -19,19 +19,34 @@ begin
   return a+b;
 end add;
 
-procedure minus(alive:boolean, dead:boolean) : boolean
+procedure murder(alive:boolean, dead:boolean) : boolean
 const killer = true;
 begin
   return killer&&alive||dead;
-end minus;
+end murder;
     
 // main function
 begin
+  citizena := murder(true,false);
+
+  citizenb := murder(false,false);
+  if( citizena = true ) then
+    println "citizena is dead";
+  else
+	println "citizena is alive";
+  end;
+
+  if( ~citizenb = false ) then
+    println "citizenb is dead";
+  else
+	println "citizenb is alive";
+  end;
+
   c := add(a, 10);
-  if (c > 10) then
-    print -c;
+  if (c > 20) then
+    println -c;
   else 
-    print c;
+    println c;
   end;
   println "Hello World";
 end Example.
