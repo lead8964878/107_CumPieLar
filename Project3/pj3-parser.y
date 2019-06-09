@@ -72,10 +72,14 @@ ofstream out;
                   {
                     outMainStart();
                   }
-                  BEGINT opt_statement END ID '.'
+                  BEGINT
+                  {
+                    stl.push();
+                  } 
+                  opt_statement END ID '.'
                   {
                     Trace("module end");
-                    idInfo *info = stl.lookup(*$11);
+                    idInfo *info = stl.lookup(*$12);
                     if (info == NULL) yyerror("module id imcompatible"); /* no corresponding module id*/
 
                     stl.dump();
@@ -83,6 +87,7 @@ ofstream out;
                     outVoidProcEnd();
 
                     outProgramEnd();
+                    stl.pop();
                   }
                   ;
 
